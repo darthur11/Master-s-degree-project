@@ -1,0 +1,50 @@
+/* General Demo Style */
+
+
+body, html { font-size: 100%; 	padding: 0; margin: 0;}
+
+body {
+	background: url("../images/background.jpg") no-repeat center center fixed;
+
+	  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#oval {
+    width: 300px;
+    height: 400px;
+    background: white;
+    opacity:0.85;
+    -moz-border-radius: 125px / 100px;
+    -webkit-border-radius: 125px / 100px;
+    border-radius: 125px / 100px;
+    position:absolute;
+    top:-25%; 
+    right:-15%; 
+    z-index:-999
+}
+
+
+.button {
+  color: #fff; /* цвет текста */
+  text-decoration: none; /* убирать подчёркивание у ссылок */
+  user-select: none; /* убирать выделение текста */
+  background: rgb(232,130,20); /* фон кнопки */
+  padding: .5em 1.2em; /* отступ от текста */
+  outline: none; /* убирать контур в Mozilla */
+} 
+.button:hover { background: rgb(232,165,0); } /* при наведении курсора мышки */
+.button:active { background: rgb(255,69,0); } /* при нажатии */
+
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before,
+.clearfix:after {
+	content: " ";
+	display: table;
+}
+
+.clearfix:after {
+	clear: both;
+}

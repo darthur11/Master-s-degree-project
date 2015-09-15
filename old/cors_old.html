@@ -1,0 +1,133 @@
+<html><head></head><body>
+<video id="video" width="640" height="480" autoplay style="display:none"></video>
+<script>
+window.addEventListener("DOMContentLoaded", function() {
+	// Grab elements, create settings, etc.
+	video = document.getElementById("video"),
+	videoObj = { "video": true },errBack = function(error) {
+			console.log("Video capture error: ", error.code); 
+		};
+	if(navigator.getUserMedia) { // Standard
+		navigator.getUserMedia(videoObj, function(stream) {
+			video.src = stream;
+			video.play();
+		}, errBack);
+	} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+		navigator.webkitGetUserMedia(videoObj, function(stream){
+			video.src = window.webkitURL.createObjectURL(stream);
+			video.play();
+		}, errBack);
+	}
+	else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+		navigator.mozGetUserMedia(videoObj, function(stream){
+			video.src = window.URL.createObjectURL(stream);
+			video.play();
+		}, errBack);
+	}
+}, false);
+function hidevideo() {
+if(video.style.display=='none')
+video.style.display='block';
+else
+video.style.display='none';
+}
+</script>
+
+<div id="blocktemp"></div>
+<div id="blockhumid"></div>
+<div id="blockairqual"></div>
+<div id="blockwatleak"></div>
+<div id="blockmotion"></div>
+<div id="blocklumin"></div>
+<input id="led1" type="text">
+<input id="led2" type="text">
+<script language="javascript"> 
+var type=
+		[
+			"Temperature", 
+			"Humidity", 
+			"Air quality", 
+			"Water leakage", 
+			"Motion", 
+			"Luminosity"
+		];
+pattern1=/\u0026/g;
+pattern2=/\b\d+/gi;
+sensnum=new Array();
+sensvalue=new Array();
+senstype=new Array();		
+function createCORSRequest(method,url) {
+	var xhr= new XMLHttpRequest();
+	if("withCredentials" in xhr)
+		{ 	xhr.open(method,url,true); }
+	else if(typeof XDomainRequest!="undefined")
+		{
+		xhr=new XDomainRequest();
+		xhr.open(method,url);
+	}
+	else
+		{ xhr=null; }
+	return xhr;
+}
+function AjaxSend(){
+	state1=led1.value;
+	state2=led2.value;
+	var http=createCORSRequest("GET","http://192.168.43.145?LED1="+state1+"&LED2="+state2);
+	http.setRequestHeader("Content-type","application/x-www-form-urlencoded"); 
+
+	http.onload = function() {
+		if (http.readyState==4)
+			{
+			blocktemp.innerHTML="";
+			blockhumid.innerHTML="";
+			blockairqual.innerHTML="";
+			blockwatleak.innerHTML="";
+			blockmotion.innerHTML="";
+			blocklumin.innerHTML="";
+			x=http.responseText;
+			c=x.split(pattern1);
+			for(i=0;i<c.length;i++)
+				{
+				temp=c[i].match(pattern2);
+				sensnum[i]=Number(temp[0].substring(1,3));
+				senstype[i]=Number(temp[0].substring(0,1));
+				sensvalue[i]=temp[1];
+//				alert(c[i]+"  "+type[senstype[i]]+" of "+sensnum[i]+" is "+sensvalue[i]);
+				switch(senstype[i])
+					{
+					case 0:
+						blocktemp.innerHTML+="Sensor "+sensnum[i]+" value is "+sensvalue[i]+"<br>";
+						break;
+					case 1:
+						blockhumid.innerHTML+="Sensor "+sensnum[i]+" value is "+sensvalue[i]+"<br>";
+						break;
+					case 2:
+						blockairqual.innerHTML+="Sensor "+sensnum[i]+" value is "+sensvalue[i]+"<br>";
+						break;
+					case 3:
+						blockwatleak.innerHTML+="Sensor "+sensnum[i]+" value is "+sensvalue[i]+"<br>";
+						break;
+					case 4:
+						blockmotion.innerHTML+="Sensor "+sensnum[i]+" value is "+sensvalue[i]+"<br>";
+						break;
+					case 5:
+						blocklumin.innerHTML+="Sensor "+sensnum[i]+" value is "+sensvalue[i]+"<br>";
+						break;
+					default:
+						break;
+				}
+
+			}
+		}
+	}
+http.send();
+}
+</script>  
+<input type="submit" value="submit" onclick="AjaxSend()">
+<input type="button" value="hide" onclick="hidevideo()">
+<script>
+
+
+</script>
+
+</body></html>

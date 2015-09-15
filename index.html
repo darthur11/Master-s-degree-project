@@ -1,0 +1,371 @@
+
+<!doctype html>
+<html class="no js"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/circles.css" />
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="css/component.css" />
+		
+    <link href="http://www.prepbootstrap.com/Content/css/single-page-admin/main.css" rel="stylesheet">
+    <link href="http://www.prepbootstrap.com/Content/css/single-page-admin/font-style.css" rel="stylesheet">
+    
+	<link href="http://fonts.googleapis.com/css?family=Raleway:400,300" rel="stylesheet" type="text/css">
+  	<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+	
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="js/modernizr.custom.js"></script>
+	<script type="text/javascript" src="js/circles.min.js"></script>
+	<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript">server="http://127.0.0.3"</script>
+	<style type="text/css">
+      body {
+        padding-top: 15px;
+      }
+    </style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+   
+
+  	<!-- Google Fonts call. Font Used Open Sans & Raleway -->
+
+
+	 
+	</head>
+	<body>
+  
+ 	
+
+    <div class="container">
+
+	  <!-- FIRST ROW OF BLOCKS -->     
+      <div class="row">
+
+    <!-- DONUT CHART BLOCK -->
+        <div class="col-sm-3 col-lg-3">
+      		<div class="dash-unit">
+		  		<dtitle>Humidity</dtitle>
+		  		<hr>
+	        	<div id="circles-1"></div>
+	        	
+				<div id="circles-2"></div>
+			</div>
+        </div>
+
+      <!-- DONUT CHART BLOCK -->
+        <div class="col-sm-3 col-lg-3">
+      		<div class="dash-unit">
+		  		<dtitle>Disk Space</dtitle>
+		  		<hr>
+					<div class="cont">
+						<div id="blocktemp"></div>
+						<div id="blockhumid"></div>
+						<div id="blockairqual"></div>
+						<div id="blockwatleak"></div>
+						<div id="blockmotion"></div>
+						<div id="blocklumin"></div>
+					</div>
+					<script language="javascript" src="js/ajax_to_arduino.js"></script> 
+					<script language="javascript" src="js/ajax_to_server.js"></script> 
+					<script language="javascript" src="js/create_cors.js"></script> 	
+					<script language="javascript" src="js/sensor_types.js"></script>	
+		
+			</div>
+        </div>
+        
+        <div class="col-sm-3 col-lg-3">
+
+      <!-- LOCAL TIME BLOCK -->
+      		<div class="half-unit">
+	      		<dtitle>Local Time</dtitle>
+	      		<hr>
+		      		<div class="clockcenter">
+			      		<digiclock></digiclock>
+		      		</div>
+			</div>
+
+      <!-- SERVER UPTIME -->
+			<div class="half-unit">
+	      		<dtitle>Countdown</dtitle>
+	      		<hr style="margin-bottom:0px;">
+	      		<div class="cont" style="margin-top:0px;">
+					<digiclock>00:00:00</digiclock>
+					<form>
+						<select name="hours"></select>
+						<select name="minutes"></select>
+						<select name="seconds"></select>
+						<input type="button" value="Start!" onclick="countdown(); start_count();">
+					</form>
+				<script type="text/javascript">
+				for(i=0;i<24;i++) {
+				if(i<10)
+				document.getElementsByTagName("Select")[0].innerHTML+="<option value=0"+i+">0"+i+"</option>";
+				else
+				document.getElementsByTagName("Select")[0].innerHTML+="<option value="+i+">"+i+"</option>";
+				}
+				for(i=0;i<60;i++) {
+				if(i<10)
+				document.getElementsByTagName("Select")[1].innerHTML+="<option value=0"+i+">0"+i+"</option>";
+				else
+				document.getElementsByTagName("Select")[1].innerHTML+="<option value="+i+">"+i+"</option>";
+				}
+				for(i=0;i<60;i++) {
+				if(i<10)
+				document.getElementsByTagName("Select")[2].innerHTML+="<option value=0"+i+">0"+i+"</option>";
+				else
+				document.getElementsByTagName("Select")[2].innerHTML+="<option value="+i+">"+i+"</option>";
+				}
+				</script>
+				</div>
+			</div>
+
+        </div>
+		<!-- SWITCHES BLOCK -->     
+		<div class="col-sm-3 col-lg-3">
+			<div class="dash-unit">
+	      		<dtitle>Switches</dtitle>
+	      		<hr>
+	      		<div class="info-user">
+					<span aria-hidden="true" class="li_params fs2"></span>
+				</div>
+				<br>
+
+				<div class="switch">				 
+					<label style="position:absolute; left:-60px; font-size:13pt">LED 1:</label>
+					<input type="radio" class="switch-input" name="view_1" value="yes" id="on_1" checked="">
+					<label for="on_1" class="switch-label switch-label-off">On</label>
+					<input type="radio" class="switch-input" name="view_1" value="no" id="off_1">
+					<label for="off_1" class="switch-label switch-label-on">Off</label>
+					<span class="switch-selection"></span>
+				</div>
+				
+				<div class="switch">				 
+					<label style="position:absolute; left:-60px; font-size:13pt">LED 2:</label>
+					<input type="radio" class="switch-input" name="view_2" value="yes" id="on_2" checked="false" onclick="statealert()">
+					<label for="on_2" class="switch-label switch-label-off">On</label>
+					<input type="radio" class="switch-input" name="view_2" value="no" id="off_2" onclick="statealert()">
+					<label for="off_2" class="switch-label switch-label-on">Off</label>
+					<span class="switch-selection"></span>
+				</div>
+					<script type="text/javascript">
+						function statealert() {
+							state=on_2.checked;
+							alert(state);}
+					</script>
+			</div>
+		</div>
+
+      </div><!-- /row -->
+      
+      
+	  <!-- SECOND ROW OF BLOCKS -->     
+      <div class="row">
+        <div class="col-sm-3 col-lg-3">
+       <!-- MAIL BLOCK -->
+      		<div class="dash-unit">
+      		<dtitle>Countdown</dtitle>
+      		<hr>
+      		<div class="cont" style="text-align:center";>
+    		<a href="#myModal" role="button" class="btnnew" data-toggle="modal">Example Modal Window</a>
+		    <video id="video" width="240" height="160" autoplay style="display:none;margin-top:20px"></video>
+			<script src="js/video_management.js"></script>
+			<input class="button" type="button" value="video" onclick="hidevideo()">		
+			</div>
+			  <!-- Modal -->
+			  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			    <div class="modal-dialog">
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			          <h4 class="modal-title">Modal title</h4>
+			        </div>
+			        <div class="modal-body">
+			          ...
+			        </div>
+			        <div class="modal-footer">
+			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			          <button type="button" class="btn btn-primary">Save changes</button>
+			        </div>
+			      </div><!-- /.modal-content -->
+			    </div><!-- /.modal-dialog -->
+			  </div><!-- /.modal -->
+		</div><!-- /dash-unit -->
+    </div><!-- /span3 -->
+
+	 
+        
+	  <!-- 30 DAYS STATS - CAROUSEL FLEXSLIDER -->     
+        <div class="col-sm-3 col-lg-3">
+      		<div class="dash-unit">
+	      		<dtitle>Weather</dtitle>
+	      		<div class="cont" id="weather">
+					<script>
+					function weather_request() {
+					http=new XMLHttpRequest();
+					http.open("GET",server+"/dbdata.php?request=weather",true);
+					http.onreadystatechange=function() {
+						if(http.readyState==4 && http.status==200) {
+							weather.innerHTML=http.response;
+							}
+						}
+					http.send();
+					setTimeout('weather_request()',10000);
+					}
+					
+					window.onload=weather_request();
+					</script>
+				</div>   
+			</div>
+        </div>
+		
+		
+		<!-- ACCORDION BLOCK -->     
+			<div class="col-sm-3 col-lg-3">
+				<div class="dash-unit">
+	      		<dtitle>Accordion</dtitle>
+	      		<hr>
+					<div class="accordion" id="accordion2">
+		                <div class="accordion-group">
+		                    <div class="accordion-heading">
+		                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+		                        Collapsible Group Item #1
+		                        </a>
+		                    </div>
+		                    <div id="collapseOne" class="accordion-body collapse in">
+		                        <div class="accordion-inner">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla iaculis mattis lorem.                        
+								</div>
+		                    </div>
+		                </div>
+		
+		                <div class="accordion-group">
+		                    <div class="accordion-heading">
+		                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+		                        Collapsible Group Item #2
+		                        </a>
+		                    </div>
+		                    <div id="collapseTwo" class="accordion-body collapse">
+		                        <div class="accordion-inner">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla iaculis mattis lorem.                      
+								</div>
+		                    </div>
+		                </div>
+		
+		                 <div class="accordion-group">
+		                    <div class="accordion-heading">
+		                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+		                        Collapsible Group Item #3
+		                        </a>
+		                    </div>
+		                    <div id="collapseThree" class="accordion-body collapse">
+		                        <div class="accordion-inner">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla iaculis mattis lorem.                        
+		                        </div>
+		                    </div>
+		                </div>
+		            </div><!--/accordion -->
+				</div>
+			</div>
+			
+			
+			
+			
+			<!-- FAST CONTACT BLOCK -->     
+			<div class="col-sm-3 col-lg-3">
+				<div class="dash-unit">
+	      		<dtitle>Fast Contact</dtitle>
+	      		<hr>
+	      		<div class="cont">
+                	<form action="#get-in-touch" method="POST" id="contact">
+                    	<input type="text" id="contactname" name="contactname" placeholder="Name">
+                    	<input type="text" id="email" name="email" placeholder="Email">
+                    	<div class="textarea-container"><textarea id="message" name="message" placeholder="Message"></textarea></div>
+                    	<input type="submit" id="submit" name="submit" value="Send">
+                    </form>
+				</div>
+				</div>
+			</div>
+      </div><!-- /row -->
+     
+      
+	</div> <!-- /container -->
+			<div id="main" class="main">
+				<ul id="cbp-bislideshow" class="cbp-bislideshow">
+					<li><img src="images/1.jpg" alt="image01"/></li>
+					<li><img src="images/2.jpg" alt="image02"/></li>
+					<li><img src="images/3.jpg" alt="image03"/></li>
+					<li><img src="images/4.jpg" alt="image04"/></li>
+					<li><img src="images/5.jpg" alt="image05"/></li>
+					<li><img src="images/6.jpg" alt="image06"/></li>
+					<li><img src="images/7.jpg" alt="image07"/></li>
+					<li><img src="images/8.jpg" alt="image08"/></li>
+				</ul>
+			</div>
+		
+		
+		<!-- imagesLoaded jQuery plugin by @desandro : https://github.com/desandro/imagesloaded -->
+		<script src="js/jquery.imagesloaded.min.js"></script>
+		<script src="js/cbpBGSlideshow.min.js"></script>
+		
+		<script>
+			var s_saver;
+				$('body').mousemove(function() {
+					$(function() {
+						cbpBGSlideshow.init();
+					});
+					clearTimeout(s_saver);
+					s_saver = setTimeout(function(){
+						$('.container').fadeOut(10);
+						$('#main').fadeIn(900);    
+					}, 25000);
+				$('#main').fadeOut(100);
+				$('.container').fadeIn(100);
+			});
+		</script>
+    <script>
+	function datetime() {
+		d = new Date();
+		document.getElementsByTagName("digiclock")[0].innerHTML=d.toLocaleTimeString();
+		setTimeout('datetime()',1000);
+	}
+	window.onload=datetime();
+	
+	var timeout_0;
+	function countdown() {	
+		hours=parseInt(document.getElementsByTagName("select")[0].value,10);
+		minutes=parseInt(document.getElementsByTagName("select")[1].value,10);
+		seconds=parseInt(document.getElementsByTagName("select")[2].value,10);
+		d_0=new Date();
+		d_0.setHours(d_0.getHours()+hours);
+		d_0.setMinutes(d_0.getMinutes()+minutes);
+		d_0.setSeconds(d_0.getSeconds()+seconds);
+		if(timeout_0>1);
+		clearTimeout(timeout_0);
+	}
+	function start_count() {
+		d=new Date();
+		b=new Date();
+		b.setTime(d_0.getTime()-d.getTime()-21600000);
+		hh=	b.getHours()<10 ? "0" + b.getHours() : b.getHours();
+		mm= b.getMinutes()<10 ? "0" + b.getMinutes() : b.getMinutes();
+		ss= b.getSeconds()<10 ? "0" + b.getSeconds() : b.getSeconds();
+		document.getElementsByTagName("digiclock")[1].innerHTML=hh+":"+mm+":"+ss;
+		timeout_0=setTimeout('start_count()',1000);
+		if(b.getHours()<1 && b.getMinutes()<1 && b.getSeconds()<1)
+			clearTimeout(timeout_0);
+	}
+	</script>
+
+	<script type="text/javascript" src="js/circles_created.js"></script>
+	<!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+	
+	
+	      
+</body></html>

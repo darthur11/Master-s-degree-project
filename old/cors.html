@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+
+		<link rel="stylesheet" type="text/css" href="css/default.css" />
+		<link rel="stylesheet" type="text/css" href="css/switch.css" />
+		<link rel="stylesheet" type="text/css" href="css/component.css" />
+		<script src="js_cors/modernizr.custom.js"></script>
+		<script src="js_cors/circles.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		
+	</head>
+	<body>
+	
+		<video id="video" width="320" height="240" autoplay style="display:none; position:absolute; top:10%; right:25%;"></video>
+		<script src="js_cors/video_management.js"></script>
+
+		<div id="info" style="position:absolute; top:20%; left:20%; font-size:16pt;">
+			<div id="oval" align="left"></div>
+					
+			<div>Led1:<div class="onoffswitch">
+				<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="led1" value="1" onclick="AjaxSendard()">
+				<label class="onoffswitch-label" for="led1">
+					<span class="onoffswitch-inner"></span>
+					<span class="onoffswitch-switch"></span>
+				</label>
+				</div>
+			</div>
+			<div>Led2:<div class="onoffswitch">
+				<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="led2" value="1" onclick="AjaxSendard()">
+				<label class="onoffswitch-label" for="led2">
+					<span class="onoffswitch-inner"></span>
+					<span class="onoffswitch-switch"></span>
+				</label>
+				</div>
+			</div>
+			
+			<div id="blocktemp"></div>
+			<div id="blockhumid"></div>
+			<div id="blockairqual"></div>
+			<div id="blockwatleak"></div>
+			<div id="blockmotion"></div>
+			<div id="blocklumin"></div>
+
+			<script language="javascript" src="js_cors/ajax_to_arduino.js"></script> 
+			<script language="javascript" src="js_cors/ajax_to_server.js"></script> 
+			<script language="javascript" src="js_cors/create_cors.js"></script> 	
+			<script language="javascript" src="js_cors/sensor_types.js"></script> 	
+		
+			<input class="button" type="button" value="video" onclick="hidevideo()">
+			
+		</div>
+		<div class="circle" id="circles-1"></div>
+		<div class="circle" id="circles-2"></div>
+		<script language="javascript" src="js_cors/circles_created.js"></script> 	
+		
+
+			<div id="main" class="main">
+				<ul id="cbp-bislideshow" class="cbp-bislideshow">
+					<li><img src="images/1.jpg" alt="image01"/></li>
+					<li><img src="images/2.jpg" alt="image02"/></li>
+					<li><img src="images/3.jpg" alt="image03"/></li>
+					<li><img src="images/4.jpg" alt="image04"/></li>
+					<li><img src="images/5.jpg" alt="image05"/></li>
+					<li><img src="images/6.jpg" alt="image06"/></li>
+					<li><img src="images/7.jpg" alt="image07"/></li>
+					<li><img src="images/8.jpg" alt="image08"/></li>
+				</ul>
+			</div>
+		
+		
+		<!-- imagesLoaded jQuery plugin by @desandro : https://github.com/desandro/imagesloaded -->
+		<script src="js_cors/jquery.imagesloaded.min.js"></script>
+		<script src="js_cors/cbpBGSlideshow.min.js"></script>
+		
+		<script>
+			var s_saver;
+				$('body').mousemove(function() {
+					$(function() {
+						cbpBGSlideshow.init();
+					});
+					clearTimeout(s_saver);
+					s_saver = setTimeout(function(){
+						$('#info').fadeOut(10);
+						$('#main').fadeIn(900);    
+					}, 25000);
+				$('#main').fadeOut(100);
+				$('#info').fadeIn(100);
+			});
+		</script>
+
+	</body>
+</html>

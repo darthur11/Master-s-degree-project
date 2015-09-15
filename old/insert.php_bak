@@ -1,0 +1,15 @@
+<?php 
+include 'mysql_class.php';
+?>
+<?php  
+
+	$sensnode=$_POST['sensnodeid'];
+	$senstype=$_POST["senstype"];
+	$sensvalue=$_POST["sensvalue"];
+	$DB = new mysql_db();
+    $DB->sql_connect('localhost', 'root', '', 'wsn_db');
+    for($i=0;$i<count($sensnode);$++)
+		$DB->query("INSERT INTO `sensors_values` (`sensnodeid`, `senstype`, `sensvalue`, `datetime`)
+VALUES ('$sensnode[$i]', '$senstype[$i]', '$sensvalue[$i]', now());");
+    $DB->sql_close();
+?>
